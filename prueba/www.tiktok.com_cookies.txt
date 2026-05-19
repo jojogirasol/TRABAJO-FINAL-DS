@@ -1,0 +1,15 @@
+# Netscape HTTP Cookie File
+# https://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file! Do not edit.
+
+.tiktok.com	TRUE	/	TRUE	1806847079	ttwid	1%7C5t66GKJfH_1Azqw5Vhv3ciOBxNAley37-vJk5P4pzqI%7C1775311079%7C97dc3aa5eb981e3676ead0a81a6f3c254fe00b71a7538b8ef998cc809210f16d
+.tiktok.com	TRUE	/	TRUE	1790863078	tt_chain_token	304BxNz6kw43QneSNLeRSw==
+.www.tiktok.com	TRUE	/	TRUE	1801231078	tiktok_webapp_theme_source	auto
+.www.tiktok.com	TRUE	/	TRUE	1801231078	tiktok_webapp_theme	light
+.www.tiktok.com	TRUE	/	TRUE	1788017059	delay_guest_mode_vid	8
+.tiktok.com	TRUE	/	TRUE	1795793064	cookie-consent	{%22optional%22:false%2C%22ga%22:false%2C%22af%22:false%2C%22fbp%22:false%2C%22lip%22:false%2C%22bing%22:false%2C%22ttads%22:false%2C%22reddit%22:false%2C%22hubspot%22:false%2C%22version%22:%22v10%22}
+.tiktok.com	TRUE	/	FALSE	1796417193	odin_tt	13c481aba2d1b9f1304822e86008c23e6f3f5656f501d5d5cb71f789682683baf9c081ddec9e92510edbe7f1790614aa00d3bdc02ac7661e6fce48524ab5e0b2a2d3855ed2680c36e1ad12fe0ce24901
+www.tiktok.com	FALSE	/	FALSE	1799078159	living_user_id	945673634257
+.tiktok.com	TRUE	/	TRUE	1776175082	msToken	JdAZLO_KXhai9P4ZLF7GT31p70-jRSP8wV4MbSl9QCx84A0BBQkg8cXAAC8DW4xMpQSiQLCSJDkDPEdb9D9TQbSZefzrW7JEJV1Aczs2DIeyRMfzdrH5rawCm5FBwgZxq-rff8fw6JaDt2it6_reLgQ=
+.tiktok.com	TRUE	/	TRUE	0	tt_csrf_token	n9yGp9ld-cf7wdIkA2EdCU7CdN_KLgnEscLY
+www.tiktok.com	FALSE	/	FALSE	1783087082	msToken	DOABvNYve_FdlPddN8UjDoiHjKSWWIZ4WqVXL5BxLO29XWtFuk5cY1FZ5S5tO7X6uBEwUw2XM0eKzIFwRAdwKwsmV2P6l_AqLhA3UXXWvtCmA1yBtwxB-jYD8UBs7CMtcq3GikSLDBdMxIdJWL5HrVE=
