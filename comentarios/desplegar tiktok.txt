@@ -1,0 +1,26 @@
+const desplegarTodoTikTok = setInterval(() => {
+  // 1. Desplegar hilos de respuestas ("Ver respuestas", "Ver más respuestas", etc.)
+  const botonesContenido = Array.from(document.querySelectorAll('div[class*="TUXButton-content"]'));
+  const botonesRespuestas = botonesContenido.filter(b => b.textContent.toLowerCase().includes('respuesta'));
+
+  // 2. Desplegar textos ocultos de comentarios largos ("Ver más", "Ver ... más")
+  const todosLosBotonesMencionados = Array.from(document.querySelectorAll('p, span, div, button'));
+  const botonesVerMas = todosLosBotonesMencionados.filter(b => {
+    const texto = b.textContent.trim().toLowerCase();
+    return texto.includes('ver') && texto.includes('más') && !texto.includes('respuesta');
+  });
+
+  // Unimos ambas listas de elementos para hacer click en todo lo encontrado
+  const elementosAClicar = [...botonesRespuestas, ...botonesVerMas];
+
+  if (elementosAClicar.length === 0) {
+    console.log("No se encontraron más botones de 'Respuestas' o 'Ver más' visibles en este momento.");
+  } else {
+    console.log(`Haciendo clic en ${elementosAClicar.length} elementos de expansión...`);
+    elementosAClicar.forEach(elemento => {
+      if (typeof elemento.click === 'function') {
+        elemento.click();
+      }
+    });
+  }
+}, 2500);
