@@ -1,0 +1,85 @@
+---
+title: "DTS"
+author: "Judith SSMF"
+date: "2026-05-26"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## objeto de estudio - objetivos e hipotesis
+
+El **objetivo principal** de este trabajo no se trata de analizar si el autodiagnóstico es correcto o incorrecto desde un punto de vista clínico, sino que estudiará, desde una perspectiva sociológica, cómo se construye socialmente el discurso y la red de comunitaria de los usuarios que consumen contenido acerca de la neurodivergencia.
+
+## tablas df_ig y dt_tt
+
+-   tabla 1 ig
+
+    -   construida a través de recogida de datos view source
+
+-   tabla 2
+
+    -   construida a través de links
+
+## tabla df_tfg
+
+-   tabla 3: bind_rows
+
+## cluster
+
+-   cluster que es - para que sirve
+
+**dendrograma combinado con un análisis de correspondencias o de texto**
+
+Como no hay "etiquetas" previas (el algoritmo no sabe de antemano qué grupos existen), su objetivo es descubrir patrones ocultos en los datos.
+
+El algoritmo busca la **asociación estadística**. No solo cuenta cuántas veces aparece la palabra "espectro", sino cuántas veces aparece *al mismo tiempo* que la palabra "autista" en los mismos fragmentos de texto. Si cada vez que alguien dice "espectro" también dice "autista" con una frecuencia mucho mayor de lo normal, la prueba de **Chi-cuadrado** arroja un valor alto. Eso le dice al algoritmo: *"Ojo, estas dos palabras están amarradas lingüísticamente"*.
+
+-   script
+
+-   cluster obtenido
+
+-   analisis de cluster
+
+Las líneas de la parte superior muestran cómo se separan las ideas en la mente del algoritmo:\
+**La primera gran división:** A la derecha del todo, el algoritmo aisló primero el **Cluster 5** del resto. Esto significa que los conceptos del Cluster 5 son los más "distantes" o diferentes temáticamente de todo el bloque compuesto por los clústeres 1, 2, 3 y 4.\
+**Segunda división:** Luego, el bloque restante se dividió en dos ramas: una para los conceptos de identidad/etiquetas en redes (**Cluster 1 y 2**) y otra para descripciones más narrativas o clínicas (**Cluster 3 y 4**).
+
+*Cluster 1: El núcleo de la comunidad en redes (*$n=28$ */ 39.4%)*
+
+**Palabras:** `#neurodivergente`, `#autismo`, `#tea`.\
+**Interpretación:** Es el clúster más grande. Representa el uso explícito de **hashtags**. Es el lenguaje de indexación en redes sociales; publicaciones orientadas a que la comunidad encuentre el contenido bajo las etiquetas oficiales de la neurodivergencia.
+
+*Cluster 2: El nicho en inglés / divulgación (*$n=5$ */ 7.0%)*
+
+**Palabras:** `adhd`, `explained`, `#adhd`.\
+**Interpretación:** Es un grupo pequeño pero muy específico. Agrupa el contenido en inglés o términos globales anglosajones sobre el Trastorno por Déficit de Atención con Hiperactividad (TDAH). La palabra *"explained"* sugiere publicaciones de tipo educativo o explicativo ("ADHD explained").
+
+*Cluster 3: La experiencia subjetiva del TDAH (*$n=18$ */ 25.4%)*
+
+**Palabras:** `tdah`, `puede`, `sentirse`, `persona`, `neurodiversidad`.\
+**Interpretación:** Este grupo se centra en la vivencia en primera persona del TDAH. Las palabras *"puede"* y *"sentirse"* denotan descripciones emocionales, síntomas o relatos de cómo experimenta el día a día una *persona* con esta condición.
+
+*Cluster 4: El espectro y sus características (*$n=18$ */ 25.4%)*
+
+**Palabras:** `forma`, `todas`, `ser`, `espectro`, `autista`, `autismo`, `explica`, `aspectos`.\
+**Interpretación:** Empatado en tamaño con el Cluster 3, este grupo tiene un tono más descriptivo o conceptual sobre el autismo. Se enfoca en la diversidad dentro de la condición (*"espectro"*, *"todas"*, *"aspectos"*, *"forma de ser"*). Habla de la amplitud del espectro autista.
+
+*Cluster 5: El estigma y el diagnóstico (*$n=2$ */ 2.8%)*
+
+**Palabras:** `neurodivergencia`, `loco`, `diagnostic`.\
+**Interpretación:** Aunque es el grupo más pequeño (solo 2 elementos significativos o un peso del 2.8%), es muy relevante. Al estar tan alejado en el árbol, toca un tema aparte: la relación entre recibir un *diagnóstico*, el concepto paraguas de *neurodivergencia* y el peso del estigma social o la salud mental (*"loco"*).
+
+## lexical
+
+-   lexical que es - para que sirve
+
+-   script
+
+-   lexical obtenido
+
+-   analisis de lexical
+
+## conclusion
