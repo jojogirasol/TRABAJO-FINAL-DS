@@ -72,4 +72,20 @@ View(tabla_cluster)
 
 ### AÑADIR PORCENTAJES A LA TABLA
 
+tabla_cluster_porcentajes <- tabla_cluster %>%
+  group_by(cluster) %>%
+  mutate(
+    total_cluster = sum(n),
+    porcentaje = round((n / total_cluster) * 100, 2)
+  ) %>%
+  arrange(cluster, desc(porcentaje))
+
+View(tabla_cluster_porcentajes)
+
+top_cluster <- tabla_cluster_porcentajes %>%
+  group_by(cluster) %>%
+  slice_max(order_by = porcentaje, n = 10) %>%
+  ungroup()
+
+View(top_cluster)
 

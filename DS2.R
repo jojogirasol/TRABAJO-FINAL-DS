@@ -15,7 +15,7 @@ library(igraph)
 library(ggforce) 
 library(readxl)
 
-excel_tfg1 <- read_excel("C:/Users/jshu2/Downloads/Copia de Base de datos TFG(1).xlsx")
+excel_tfg1 <- read_excel("Copia de Base de datos TFG.xlsx")
 
 # la tabla excel_tfg1 recoge en una tabla el contenido de los videos recogidos 
 # manualmente (transcripciones), además de otros datos, entre ellos los datos
