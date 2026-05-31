@@ -55,7 +55,7 @@ df_grupos <- data.frame(
   cluster = as.vector(grupos)
 )
 
-dfm_long <- convert(dtm_rainette, to = "data.frame")
+dfm_long <- quanteda::convert(dtm_rainette, to = "data.frame")
 dfm_long$doc_id <- paste0("text", 1:nrow(dfm_long))
 
 tabla_cluster <- dfm_long %>%

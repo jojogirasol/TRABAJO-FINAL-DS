@@ -1,85 +1,314 @@
 ---
-title: "DTS"
-author: "Judith SSMF"
+title: "Neurodivergencia, autodiagnóstico y redes sociales"
+subtitle: "Análisis de discursos digitales en Instagram y TikTok"
+author: "Judith SSMF · Fernando J. Sanjurjo"
 date: "2026-05-26"
-output: ioslides_presentation
+output:
+  ioslides_presentation:
+    widescreen: true
 ---
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+
+library(tidyverse)
+library(knitr)
+
+load("tablas.RData")
+
+source("DS1.R", encoding = "UTF-8")
 ```
 
-## objeto de estudio - objetivos e hipotesis
+<style>
+.title-slide {
+  background: linear-gradient(135deg, #f2f6ff 0%, #ffffff 45%, #eefaf7 100%);
+}
+
+.title-slide hgroup h1 {
+  font-size: 54px;
+  color: #2f3a56;
+  font-weight: 700;
+}
+
+.title-slide hgroup h2 {
+  color: #4f6f7a;
+  font-size: 28px;
+}
+
+.title-slide p {
+  color: #555;
+  font-size: 24px;
+}
+
+slides > slide {
+  font-size: 26px;
+}
+
+h2 {
+  color: #2f3a56;
+}
+
+table {
+  font-size: 20px;
+}
+</style>
+
+## objeto de estudio, objetivos e hipotesis
 
 El **objetivo principal** de este trabajo no se trata de analizar si el autodiagnóstico es correcto o incorrecto desde un punto de vista clínico, sino que estudiará, desde una perspectiva sociológica, cómo se construye socialmente el discurso y la red de comunitaria de los usuarios que consumen contenido acerca de la neurodivergencia.
 
-## tablas df_ig y dt_tt
+## tablas df_ig y df_tt
 
--   tabla 1 ig
+Para construir la base final se parte de dos tablas iniciales:
 
-    -   construida a través de recogida de datos view source
+- `df_ig`: recoge las publicaciones procedentes de Instagram. La información se obtuvo mediante recogida manual de datos a partir del código fuente y la observación directa de las publicaciones.
 
--   tabla 2
+- `df_tt`: recoge las publicaciones procedentes de TikTok. En este caso, la tabla se construyó a partir de enlaces recopilados previamente.
 
-    -   construida a través de links
+Ambas tablas contienen una estructura común, con variables como plataforma, usuario, título, fecha, visualizaciones, likes, comentarios, descripción y enlace original. Esto permite unirlas posteriormente en una única base de análisis.
 
 ## tabla df_tfg
 
--   tabla 3: bind_rows
+La base final del trabajo se construye uniendo las dos tablas originales mediante `bind_rows()`: una procedente de Instagram y otra de TikTok. El resultado es `df_tfg`, una tabla conjunta con 46 publicaciones y 10 variables.
 
-## cluster
+```{r resumen_df_tfg}
+tabla_resumen <- df_tfg %>%
+  count(plataforma, name = "n_publicaciones") %>%
+  mutate(
+    porcentaje = round(n_publicaciones / sum(n_publicaciones) * 100, 1)
+  )
 
--   cluster que es - para que sirve
+tabla_resumen
+```
 
-**dendrograma combinado con un análisis de correspondencias o de texto**
+## Cluster: qué es y para qué sirve
 
-Como no hay "etiquetas" previas (el algoritmo no sabe de antemano qué grupos existen), su objetivo es descubrir patrones ocultos en los datos.
+**Dendrograma combinado con un análisis de correspondencias o de texto**
 
-El algoritmo busca la **asociación estadística**. No solo cuenta cuántas veces aparece la palabra "espectro", sino cuántas veces aparece *al mismo tiempo* que la palabra "autista" en los mismos fragmentos de texto. Si cada vez que alguien dice "espectro" también dice "autista" con una frecuencia mucho mayor de lo normal, la prueba de **Chi-cuadrado** arroja un valor alto. Eso le dice al algoritmo: *"Ojo, estas dos palabras están amarradas lingüísticamente"*.
+Como no hay "etiquetas" previas, es decir, el algoritmo no sabe de antemano qué grupos existen, su objetivo es descubrir patrones ocultos en los datos.
 
--   script
+El análisis de cluster permite agrupar fragmentos o términos que comparten asociaciones internas. En este caso, sirve para ver qué bloques discursivos aparecen dentro del contenido sobre neurodivergencia en redes sociales.
 
--   cluster obtenido
+## Cluster: lógica estadística
 
--   analisis de cluster
+El algoritmo busca la **asociación estadística**. No solo cuenta cuántas veces aparece la palabra "espectro", sino cuántas veces aparece *al mismo tiempo* que la palabra "autista" en los mismos fragmentos de texto.
 
-Las líneas de la parte superior muestran cómo se separan las ideas en la mente del algoritmo:\
-**La primera gran división:** A la derecha del todo, el algoritmo aisló primero el **Cluster 5** del resto. Esto significa que los conceptos del Cluster 5 son los más "distantes" o diferentes temáticamente de todo el bloque compuesto por los clústeres 1, 2, 3 y 4.\
-**Segunda división:** Luego, el bloque restante se dividió en dos ramas: una para los conceptos de identidad/etiquetas en redes (**Cluster 1 y 2**) y otra para descripciones más narrativas o clínicas (**Cluster 3 y 4**).
+Si cada vez que aparece "espectro" también aparece "autista" con una frecuencia mucho mayor de lo normal, la prueba de **Chi-cuadrado** arroja un valor alto. Eso indica que esas palabras están asociadas con más frecuencia de la esperada.
+
+## Cluster: dendrograma obtenido
+
+```{r grafico_cluster, fig.width=12, fig.height=6, out.width="100%"}
+rainette_plot(
+  res,
+  dtm_rainette,
+  n_terms = 20,
+  measure = "chi2"
+)
+```
+
+## Cluster: palabras principales
+
+```{r tabla_palabras_cluster}
+tabla_top_cluster <- tabla_cluster_porcentajes %>%
+  group_by(cluster) %>%
+  slice_max(order_by = porcentaje, n = 5) %>%
+  ungroup() %>%
+  select(cluster, feature, n, porcentaje)
+
+tabla_top_cluster
+```
+
+## Cluster: lectura general del árbol
+
+Las líneas de la parte superior muestran cómo el algoritmo separa los grupos de palabras según sus asociaciones internas.
+
+**La primera gran división:** a la derecha del todo, el algoritmo aisló primero el **Cluster 5** del resto. Esto significa que los conceptos del Cluster 5 son los más "distantes" o diferentes temáticamente de todo el bloque compuesto por los clústeres 1, 2, 3 y 4.
+
+**Segunda división:** luego, el bloque restante se dividió en dos ramas: una para los conceptos de identidad/etiquetas en redes (**Cluster 1 y 2**) y otra para descripciones más narrativas o clínicas (**Cluster 3 y 4**).
+
+## Cluster 1 y Cluster 2
 
 *Cluster 1: El núcleo de la comunidad en redes (*$n=28$ */ 39.4%)*
 
-**Palabras:** `#neurodivergente`, `#autismo`, `#tea`.\
+**Palabras:** `#neurodivergente`, `#autismo`, `#tea`.
+
 **Interpretación:** Es el clúster más grande. Representa el uso explícito de **hashtags**. Es el lenguaje de indexación en redes sociales; publicaciones orientadas a que la comunidad encuentre el contenido bajo las etiquetas oficiales de la neurodivergencia.
 
 *Cluster 2: El nicho en inglés / divulgación (*$n=5$ */ 7.0%)*
 
-**Palabras:** `adhd`, `explained`, `#adhd`.\
-**Interpretación:** Es un grupo pequeño pero muy específico. Agrupa el contenido en inglés o términos globales anglosajones sobre el Trastorno por Déficit de Atención con Hiperactividad (TDAH). La palabra *"explained"* sugiere publicaciones de tipo educativo o explicativo ("ADHD explained").
+**Palabras:** `adhd`, `explained`, `#adhd`.
+
+**Interpretación:** Es un grupo pequeño pero muy específico. Agrupa el contenido en inglés o términos globales anglosajones sobre el Trastorno por Déficit de Atención con Hiperactividad. La palabra *"explained"* sugiere publicaciones de tipo educativo o explicativo.
+
+## Cluster 3 y Cluster 4
 
 *Cluster 3: La experiencia subjetiva del TDAH (*$n=18$ */ 25.4%)*
 
-**Palabras:** `tdah`, `puede`, `sentirse`, `persona`, `neurodiversidad`.\
+**Palabras:** `tdah`, `puede`, `sentirse`, `persona`, `neurodiversidad`.
+
 **Interpretación:** Este grupo se centra en la vivencia en primera persona del TDAH. Las palabras *"puede"* y *"sentirse"* denotan descripciones emocionales, síntomas o relatos de cómo experimenta el día a día una *persona* con esta condición.
 
 *Cluster 4: El espectro y sus características (*$n=18$ */ 25.4%)*
 
-**Palabras:** `forma`, `todas`, `ser`, `espectro`, `autista`, `autismo`, `explica`, `aspectos`.\
-**Interpretación:** Empatado en tamaño con el Cluster 3, este grupo tiene un tono más descriptivo o conceptual sobre el autismo. Se enfoca en la diversidad dentro de la condición (*"espectro"*, *"todas"*, *"aspectos"*, *"forma de ser"*). Habla de la amplitud del espectro autista.
+**Palabras:** `forma`, `todas`, `ser`, `espectro`, `autista`, `autismo`, `explica`, `aspectos`.
+
+**Interpretación:** Empatado en tamaño con el Cluster 3, este grupo tiene un tono más descriptivo o conceptual sobre el autismo. Se enfoca en la diversidad dentro de la condición: *"espectro"*, *"todas"*, *"aspectos"*, *"forma de ser"*.
+
+## Cluster 5: estigma y diagnóstico
 
 *Cluster 5: El estigma y el diagnóstico (*$n=2$ */ 2.8%)*
 
-**Palabras:** `neurodivergencia`, `loco`, `diagnostic`.\
-**Interpretación:** Aunque es el grupo más pequeño (solo 2 elementos significativos o un peso del 2.8%), es muy relevante. Al estar tan alejado en el árbol, toca un tema aparte: la relación entre recibir un *diagnóstico*, el concepto paraguas de *neurodivergencia* y el peso del estigma social o la salud mental (*"loco"*).
+**Palabras:** `neurodivergencia`, `loco`, `diagnostic`.
 
-## lexical
+**Interpretación:** Aunque es el grupo más pequeño, es relevante. Al estar tan alejado en el árbol, toca un tema aparte: la relación entre recibir un *diagnóstico*, el concepto paraguas de *neurodivergencia* y el peso del estigma social o la salud mental.
 
--   lexical que es - para que sirve
+Aunque cuantitativamente pesa poco, introduce una dimensión sociológica importante: cómo ciertos términos clínicos o identitarios pueden aparecer ligados a etiquetas cargadas simbólicamente.
 
--   script
+## Lexical: qué es y para qué sirve
 
--   lexical obtenido
+El análisis léxico permite observar cómo se conectan las palabras dentro del discurso analizado.
 
--   analisis de lexical
+A diferencia del cluster, que agrupa fragmentos o términos según su proximidad estadística, el mapa léxico representa una **red de coocurrencias**: muestra qué palabras aparecen cerca unas de otras y qué comunidades de términos se forman dentro del conjunto textual.
 
-## conclusion
+## Lexical: lógica del análisis
+
+En este trabajo se utiliza para explorar los vínculos discursivos entre conceptos como neurodivergencia, autismo, TDAH, diagnóstico, identidad y experiencia personal.
+
+No se trata solo de contar palabras, sino de ver qué palabras tienden a aparecer juntas y qué tipo de campo semántico construyen.
+
+```{r preparar_lexical, include=FALSE}
+library(readxl)
+library(quanteda)
+library(igraph)
+library(ggraph)
+library(ggforce)
+
+excel_tfg1 <- read_excel("Copia de Base de datos TFG.xlsx")
+
+crear_mapa_lexico <- function(campo_texto, n_palabras = 28) {
+  
+  corpus_tfg3 <- corpus(excel_tfg1, text_field = campo_texto)
+  
+  tokens3 <- tokens(
+    corpus_tfg3,
+    remove_punct = TRUE,
+    remove_numbers = TRUE,
+    remove_symbols = TRUE
+  ) %>%
+    tokens_tolower() %>%
+    tokens_remove(c(stopwords("spanish"), stopwords("english"))) %>%
+    tokens_remove(c(
+      "wolff", "eilish", "vogue", "instagram", "tiktok",
+      "video", "comentarios", "the", "and", "are"
+    )) %>%
+    tokens_select(min_nchar = 3)
+  
+  fcm_tfg <- fcm(
+    tokens3,
+    context = "window",
+    window = 5,
+    count = "frequency",
+    tri = FALSE
+  )
+  
+  frequencias <- colSums(fcm_tfg)
+  top_words <- names(sort(frequencias, decreasing = TRUE)[1:n_palabras])
+  fcm_select <- fcm_select(fcm_tfg, pattern = top_words)
+  
+  matrix_tfg <- as.matrix(fcm_select)
+  
+  graph_tfg <- graph_from_adjacency_matrix(
+    matrix_tfg,
+    mode = "undirected",
+    weighted = TRUE,
+    diag = FALSE
+  )
+  
+  graph_tfg <- delete_vertices(graph_tfg, degree(graph_tfg) == 0)
+  
+  clusters <- cluster_louvain(graph_tfg)
+  V(graph_tfg)$community <- as.factor(membership(clusters))
+  V(graph_tfg)$degree <- degree(graph_tfg)
+  
+  ggraph(graph_tfg, layout = "fr") + 
+    geom_edge_link(
+      aes(edge_alpha = weight),
+      show.legend = FALSE,
+      color = "grey75"
+    ) +
+    geom_mark_hull(
+      aes(x, y, group = community, fill = community, label = community),
+      alpha = 0.10,
+      color = NA,
+      concavity = 5,
+      show.legend = FALSE
+    ) +
+    geom_node_point(
+      aes(size = degree, color = community),
+      show.legend = FALSE
+    ) +
+    geom_node_text(
+      aes(label = name),
+      repel = TRUE,
+      fontface = "bold",
+      size = 3,
+      max.overlaps = Inf
+    ) +
+    scale_fill_brewer(palette = "Set3") +
+    scale_color_brewer(palette = "Set3") +
+    theme_void()
+}
+```
+
+## Lexical: mapa de descripciones
+
+```{r lexical_descripcion, fig.width=12, fig.height=5.5, out.width="88%"}
+crear_mapa_lexico("DESCRIPCIÓN", n_palabras = 28)
+```
+
+## Lexical: mapa de análisis
+
+```{r lexical_analisis, fig.width=12, fig.height=5.5, out.width="88%"}
+crear_mapa_lexico("ANALISIS", n_palabras = 28)
+```
+
+
+## Lexical: lectura general
+
+El mapa léxico muestra que el discurso sobre neurodivergencia no aparece como una suma desordenada de palabras, sino como una red de términos conectados.
+
+En torno a etiquetas como `#neurodivergencia`, `#tea`, `#tdah`, `#autismo` o `#adhd` se construyen comunidades de significado que combinan lenguaje divulgativo, identificación personal y pertenencia comunitaria.
+
+## Lexical: interpretación sociológica
+
+La presencia de hashtags indica que una parte importante del discurso está pensada para circular dentro de plataformas digitales.
+
+No son solo palabras descriptivas, sino mecanismos de búsqueda, agrupación y reconocimiento entre usuarios.
+
+En ese sentido, el mapa léxico ayuda a visualizar cómo las redes sociales no solo difunden contenidos sobre neurodivergencia, sino que también organizan formas de nombrarse, reconocerse y participar en una comunidad.
+
+## Conclusión I: qué muestran los resultados
+
+El análisis permite observar que el discurso sobre neurodivergencia en redes sociales no aparece como un conjunto de publicaciones aisladas, sino como una forma de construcción comunitaria.
+
+Las publicaciones analizadas no solo informan sobre autismo, TDAH o diagnóstico. También producen lenguajes compartidos, etiquetas comunes y formas de reconocimiento entre usuarios.
+
+En este sentido, las redes sociales funcionan como espacios donde la neurodivergencia se nombra, se explica y se pone en circulación mediante códigos propios de la cultura digital.
+
+## Conclusión II: cluster y mapa léxico
+
+Los resultados del cluster muestran varios núcleos discursivos diferenciados. Por un lado, aparece un uso fuerte de hashtags vinculados a la identificación y a la circulación del contenido. Por otro, se observan grupos de palabras relacionados con la experiencia subjetiva del TDAH, el espectro autista y el diagnóstico.
+
+El mapa léxico completa esta lectura mostrando que las palabras no aparecen de manera suelta, sino conectadas en comunidades de significado. Conceptos como `#neurodivergencia`, `#tea`, `#tdah`, `#autismo` o `#adhd` organizan parte del discurso y permiten ver cómo se construye una red simbólica alrededor de la neurodivergencia.
+
+## Conclusión III: lectura sociológica
+
+La cuestión central no es decidir si el autodiagnóstico es clínicamente válido o no. Ese no era el objetivo del trabajo. Lo relevante aquí es analizar cómo se produce socialmente un discurso sobre la neurodivergencia en plataformas digitales.
+
+Desde esta perspectiva, Instagram y TikTok no funcionan solo como canales de difusión, sino como espacios donde se negocian etiquetas, pertenencias y formas de entender la propia experiencia.
+
+Por tanto, el análisis muestra que la neurodivergencia en redes no es únicamente un tema individual o clínico, sino también un fenómeno social, comunicativo y comunitario.
