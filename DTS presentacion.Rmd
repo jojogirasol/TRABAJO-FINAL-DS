@@ -57,11 +57,11 @@ table {
 }
 </style>
 
-## objeto de estudio, objetivos e hipotesis
+## Objeto de estudio, objetivos e hipotesis
 
 El **objetivo principal** de este trabajo no se trata de analizar si el autodiagnóstico es correcto o incorrecto desde un punto de vista clínico, sino que estudiará, desde una perspectiva sociológica, cómo se construye socialmente el discurso y la red de comunitaria de los usuarios que consumen contenido acerca de la neurodivergencia.
 
-## tablas df_ig y df_tt
+## Tablas df_ig y df_tt
 
 Para construir la base final se parte de dos tablas iniciales:
 
@@ -71,7 +71,7 @@ Para construir la base final se parte de dos tablas iniciales:
 
 Ambas tablas contienen una estructura común, con variables como plataforma, usuario, título, fecha, visualizaciones, likes, comentarios, descripción y enlace original. Esto permite unirlas posteriormente en una única base de análisis.
 
-## tabla df_tfg
+## Tabla df_tfg
 
 La base final del trabajo se construye uniendo las dos tablas originales mediante `bind_rows()`: una procedente de Instagram y otra de TikTok. El resultado es `df_tfg`, una tabla conjunta con 46 publicaciones y 10 variables.
 
